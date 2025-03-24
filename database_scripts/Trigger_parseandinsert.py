@@ -199,7 +199,7 @@ def writeCheckinData(data: Dict[str, any], cursor: psycopg2.extensions.cursor):
 
 
 def writeTipData(data: Dict[str, any], cursor: psycopg2.extensions.cursor):
-    tip_insert = "INSERT INTO Tip (user_id, business_id, date_posted, body, likes) VALUES %s"
+    tip_insert = "INSERT INTO Tip (user_id, business_id, date_posted, body, likes) VALUES %s ON CONFLICT (user_id, business_id, date_posted) DO NOTHING"
     tip_data = []
     for dict in data:
         tip_data.append(
