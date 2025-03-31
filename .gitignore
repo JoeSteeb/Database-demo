@@ -25,3 +25,6 @@ build/
 
 # Large datasets
 /data/
+
+# Keys / Passwords
+server/sqlLogin.json

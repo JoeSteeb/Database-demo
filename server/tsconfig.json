@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["./*"]
+      },
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "module": "ESNext",
+      "target": "ESNext",
+      "outDir": "dist"
+    },
+    "include": ["src/**/*.ts", "*.json"]
+  }
+  
