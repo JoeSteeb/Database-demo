@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="flex flex-col w-screen h-screen">
-      <div className="w-screen flex align-middle justify-center bg-amber-50">
+      <div className="w-screen flex align-middle justify-center drop-shadow-sm bg-white">
         {pages.map((p) => (
           <button
             onClick={() => setCurrentPage(p.content)}
@@ -24,7 +24,9 @@ function App() {
           </button>
         ))}
       </div>
-      <div className="flex-grow w-screen bg-amber-200">{currentPage}</div>
+      <div className="flex-grow w-screen bg-[#f6f7f9] flex justify-center">
+        {currentPage}
+      </div>
     </div>
   );
 }

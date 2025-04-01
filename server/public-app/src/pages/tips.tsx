@@ -1,3 +1,7 @@
 export const Tips = () => {
-  return <div>Tips</div>;
+  return (
+    <form className="w-2/3 bg-white my-5 drop-shadow-sm">
+      <input></input>
+    </form>
+  );
 };

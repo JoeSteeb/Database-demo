@@ -11,12 +11,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.0.1",
     "postgres": "^3.4.5",
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
-    "@types/node": "^22.13.11"
+    "@types/node": "^22.13.11",
+    "autoprefixer": "^10.4.21"
   }
 }
