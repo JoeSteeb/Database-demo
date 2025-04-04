@@ -12,8 +12,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState(<People />);
 
   return (
-    <div className="flex flex-col w-screen h-screen">
-      <div className="w-screen flex align-middle justify-center drop-shadow-sm bg-white">
+    <div className="flex flex-col w-screen h-screen bg-amber-400">
+      <div className="w-screen py-2 flex align-middle justify-center drop-shadow-sm bg-white">
         {pages.map((p) => (
           <button
             onClick={() => setCurrentPage(p.content)}
@@ -24,7 +24,7 @@ function App() {
           </button>
         ))}
       </div>
-      <div className="flex-grow w-screen bg-[#f6f7f9] flex justify-center">
+      <div className="flex h-full overflow-hidden bg-[#f6f7f9] justify-center">
         {currentPage}
       </div>
     </div>

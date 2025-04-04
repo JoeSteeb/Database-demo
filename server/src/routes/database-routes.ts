@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import sqlLogin from "@/sqlLogin.json";
 import postgres from "postgres";
+import { ParsedUrlQueryInput } from "querystring";
 const router = Router();
 
 const sql = postgres({
@@ -130,23 +131,35 @@ router.get("/tipsInBusiness", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/getUser", async (req: Request, res: Response) => {
-  let { username, windowStart, windowEnd } = req.query;
-
-  if (!username) {
-    username = "";
-  }
-
-  const limit = 20;
+router.post("/getUser", async (req: Request, res: Response) => {
+  const {
+    username = "",
+    offset = 0,
+    limit = 20,
+  } = req.body as {
+    username?: string;
+    offset?: number;
+    limit?: number;
+  };
 
   try {
     const result = await sql`
-        SELECT DISTINCT user_id 
-        FROM users 
-        WHERE user_name LIKE ${username} || '%'
-        LIMIT 50;
-      `;
-    res.json(result);
+      SELECT DISTINCT user_id 
+      FROM users
+      WHERE user_name LIKE ${username} || '%'
+      ORDER BY user_id
+      LIMIT ${limit}
+      OFFSET ${offset};
+    `;
+
+    const [{ count }] = await sql`
+      SELECT COUNT(DISTINCT user_id) AS count
+      FROM users
+      WHERE user_name LIKE ${username} || '%'
+    `;
+
+    res.json({ result, count });
+    console.log("user queried");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch user." });
