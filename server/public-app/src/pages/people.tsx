@@ -15,6 +15,7 @@ export const People = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [pageNum, setPageNum] = useState(0);
   const [pageSize, setPageSize] = useState(20);
+  const [pageCount, setPageCount] = useState(0);
 
   const fetchData = () => {
     console.log(`Offset ${pageNum * pageSize} pageSize ${pageSize}`);
@@ -72,6 +73,7 @@ export const People = () => {
         <button type="button">Previous</button>
         {[...Array(5)].map((_, i) => (
           <button
+            className="{}"
             onClick={() => {
               setPageNum(i);
             }}
