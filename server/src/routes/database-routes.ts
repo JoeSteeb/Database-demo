@@ -144,7 +144,11 @@ router.post("/getUser", async (req: Request, res: Response) => {
 
   try {
     const result = await sql`
-      SELECT DISTINCT user_id 
+      SELECT DISTINCT 
+      user_id,
+      user_name,
+      tip_count,
+      yelping_since
       FROM users
       WHERE user_name LIKE ${username} || '%'
       ORDER BY user_id

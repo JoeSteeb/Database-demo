@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 type User = {
   user_id: string;
+  user_name: string;
+  yelping_since: string;
 };
 
 type QueryObject = {
@@ -50,9 +52,15 @@ export const People = () => {
       className="w-2/3 flex flex-col overflow-hidden drop-shadow-sm items-center bg-white my-5"
     >
       <div className="flex justify-center my-5 gap-10">
+        {/* Search query */}
         <div className="p-1 drop-shadow-sm rounded-md bg-white">
           search
-          <input />
+          <input
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setPageNum(0);
+            }}
+          />
         </div>
         <div className="p-1 drop-shadow-sm rounded-md bg-white">
           filter
@@ -64,7 +72,7 @@ export const People = () => {
         {searchResults &&
           searchResults.result.map((p) => (
             <button className="w-full max-w-md my-1" key={p.user_id}>
-              User: {p.user_id}
+              User: {p.user_name} Created: {p.yelping_since}
             </button>
           ))}
       </div>
