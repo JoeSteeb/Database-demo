@@ -1,45 +1,34 @@
 import { useEffect, useState } from "react";
-
-type User = {
-  user_id: string;
-  user_name: string;
-  yelping_since: string;
-};
-
-type QueryObject = {
-  count: number;
-  result: User[];
-};
+import { QueryView } from "../components/queryView";
+import { QueryBuilder } from "../components/queryBuilder";
+import type { User, QueryObject } from "../interfaces/databaseInterface";
+import { fetchData } from "../api/fetchData";
 
 export const People = () => {
   const [searchResults, setSearchResults] = useState<QueryObject | null>(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [pageNum, setPageNum] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [pageCount, setPageCount] = useState(0);
 
-  const fetchData = () => {
-    console.log(`Offset ${pageNum * pageSize} pageSize ${pageSize}`);
-    fetch("http://localhost:3000/api/getUser", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: searchQuery,
-        offset: pageNum * pageSize,
-        limit: pageSize,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) return Promise.reject("Failed to fetch");
-        console.log("Fetched Users");
-        return res.json();
-      })
-      .then(setSearchResults)
-      .catch(setError);
-  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-  useEffect(fetchData, [searchQuery, pageNum]);
+    fetchData(
+      pageNum,
+      pageSize,
+      searchQuery,
+      signal,
+      setSearchResults,
+      setError
+    );
+
+    return () => {
+      controller.abort();
+    };
+  }, [searchQuery, pageNum]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,48 +40,12 @@ export const People = () => {
       onSubmit={handleSubmit}
       className="w-2/3 flex flex-col overflow-hidden drop-shadow-sm items-center bg-white my-5"
     >
-      <div className="flex justify-center my-5 gap-10">
-        {/* Search query */}
-        <div className="p-1 drop-shadow-sm rounded-md bg-white">
-          search
-          <input
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setPageNum(0);
-            }}
-          />
-        </div>
-        <div className="p-1 drop-shadow-sm rounded-md bg-white">
-          filter
-          <input />
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center overflow-y-auto px-4">
-        {searchResults &&
-          searchResults.result.map((p) => (
-            <button className="w-full max-w-md my-1" key={p.user_id}>
-              User: {p.user_name} Created: {p.yelping_since}
-            </button>
-          ))}
-      </div>
-
-      <div className="flex flex-row my-5">
-        <button type="button">Previous</button>
-        {[...Array(5)].map((_, i) => (
-          <button
-            className="{}"
-            onClick={() => {
-              setPageNum(i);
-            }}
-            key={i}
-            type="button"
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button type="button">Next</button>
-      </div>
+      <QueryBuilder setSearchQuery={setSearchQuery} setPageNum={setPageNum} />
+      <QueryView
+        searchResults={searchResults}
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+      />
       {error}
     </form>
   );
