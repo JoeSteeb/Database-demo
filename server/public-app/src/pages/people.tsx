@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { QueryView } from "../components/queryView";
 import { QueryBuilder } from "../components/queryBuilder";
-import type { User, QueryObject } from "../interfaces/databaseInterface";
+import type { QueryObject } from "../interfaces/databaseInterface";
 import { fetchData } from "../api/fetchData";
 
 export const People = () => {
@@ -9,8 +9,8 @@ export const People = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [pageNum, setPageNum] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
-  const [pageCount, setPageCount] = useState(0);
+  // const [pageSize, setPageSize] = useState(20);
+  // const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -18,8 +18,8 @@ export const People = () => {
 
     fetchData(
       pageNum,
-      pageSize,
-      searchQuery,
+      50,
+      [{ columnName: "user_name", valueName: searchQuery }],
       signal,
       setSearchResults,
       setError

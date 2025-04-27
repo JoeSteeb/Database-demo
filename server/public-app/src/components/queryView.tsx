@@ -1,4 +1,4 @@
-import type { User, QueryObject } from "../interfaces/databaseInterface";
+import type { QueryObject } from "../interfaces/databaseInterface";
 
 type QueryViewProps = {
   searchResults: QueryObject | null;

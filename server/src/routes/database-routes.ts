@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import sqlLogin from "@/sqlLogin.json";
 import postgres from "postgres";
-import { ParsedUrlQueryInput } from "querystring";
+import * as db from "./databaseInterface";
 const router = Router();
 
 const sql = postgres({
@@ -133,14 +133,18 @@ router.get("/tipsInBusiness", async (req: Request, res: Response) => {
 
 router.post("/getUser", async (req: Request, res: Response) => {
   const {
-    username = "",
+    likeFilters = "",
     offset = 0,
     limit = 20,
   } = req.body as {
-    username?: string;
+    likeFilters?: db.LikeFilter[];
     offset?: number;
     limit?: number;
   };
+
+  const username = Array.isArray(likeFilters)
+    ? likeFilters.find((e) => e.columnName === "user_name")?.valueName || ""
+    : "";
 
   try {
     const result = await sql`

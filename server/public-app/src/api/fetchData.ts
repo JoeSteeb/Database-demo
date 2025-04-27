@@ -1,21 +1,21 @@
 // src/api/fetchData.ts
-import type { QueryObject } from "../interfaces/databaseInterface";
+import type { LikeFilter, QueryObject } from "../interfaces/databaseInterface";
 
 export const fetchData = async (
   pageNum: number,
   pageSize: number,
-  searchQuery: string,
+  likeFilters: LikeFilter[],
   signal: AbortSignal,
   setSearchResults: (res: QueryObject) => void,
   setError: (err: string) => void
 ) => {
   try {
     console.log(`Offset ${pageNum * pageSize} pageSize ${pageSize}`);
-    const res = await fetch("http://localhost:3000/api/getUser", {
+    const res = await fetch("http://localhost:3001/api/getUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: searchQuery,
+        likeFilters: likeFilters,
         offset: pageNum * pageSize,
         limit: pageSize,
       }),
