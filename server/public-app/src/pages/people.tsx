@@ -9,6 +9,8 @@ export const People = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<string[]>([]);
+  const [filterInput, setFilterInput] = useState<string[]>([]);
+  const [orderList, setOrderList] = useState<string[]>([]);
   const [pageNum, setPageNum] = useState(0);
   // const [pageSize, setPageSize] = useState(20);
   // const [pageCount, setPageCount] = useState(0);
@@ -46,6 +48,9 @@ export const People = () => {
       <QueryBuilder
         setSearchQuery={setSearchQuery}
         filters={filters}
+        orderList={orderList}
+        setFilterInput={setFilterInput}
+        setOrderList={setOrderList}
         setPageNum={setPageNum}
       />
       <QueryView
