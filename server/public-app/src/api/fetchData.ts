@@ -34,3 +34,24 @@ export const fetchData = async (
     }
   }
 };
+
+export const fetchFilters = async (
+  table: string,
+  setFilters: (set: string[]) => void
+) => {
+  try {
+    const res = await fetch("http://localhost:3001/api/columnsInTable", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tableName: table }),
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch");
+    console.log("Fetched Filters");
+    const data = await res.json();
+    setFilters(data);
+    return data;
+  } catch (err: any) {
+    console.error(err);
+  }
+};

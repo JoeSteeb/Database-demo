@@ -1,17 +1,17 @@
-import { mock } from "node:test";
 import DropDownMenu from "./dropDown";
-
-let mockItems = ["test1", "test2", "test3"];
 
 type QueryBuilderProps = {
   setSearchQuery: (value: string) => void;
   setPageNum: (value: number) => void;
+  filters?: string[];
 };
 
 export const QueryBuilder = ({
   setSearchQuery,
+  filters,
   setPageNum,
 }: QueryBuilderProps) => {
+  console.log("filters: " + filters);
   return (
     <div className="flex justify-center my-5 gap-10">
       <div className="p-1 drop-shadow-sm rounded-md bg-white">
@@ -23,8 +23,30 @@ export const QueryBuilder = ({
             setPageNum(0);
           }}
         />
-        <DropDownMenu title="test" items={mockItems} />
       </div>
+
+      {filters && (
+        <DropDownMenu
+          title="Filter By"
+          items={filters.map((item: string) => (
+            <div className="flex flex-row" key={item}>
+              <div>{item}</div>
+              <input className="ml-1 border border-gray-300 rounded px-2 outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+          ))}
+        />
+      )}
+
+      {filters && (
+        <DropDownMenu
+          title="Order By"
+          items={filters.map((item: string) => (
+            <div className="flex flex-row" key={item}>
+              <div>{item}</div>
+            </div>
+          ))}
+        />
+      )}
     </div>
   );
 };

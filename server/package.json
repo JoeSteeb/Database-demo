@@ -2,14 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "npx tsx --env-file=.env --watch  src/app.ts"
+    "start": "npx tsx --env-file=.env --watch src/app.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "serve": "node dist/app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.0.1",
