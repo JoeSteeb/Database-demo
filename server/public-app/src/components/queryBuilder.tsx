@@ -3,21 +3,24 @@ import DropDownMenu from "./dropDown";
 type QueryBuilderProps = {
   setSearchQuery: (value: string) => void;
   setPageNum: (value: number) => void;
-  setFilterInput: (value: string[]) => void;
   setOrderList: (value: string[]) => void;
-  filters?: string[];
-  orderList?: string[];
-  filterInput?: string[];
+  filters: string[];
+  orderList: string[];
+  filterInput: Record<string, string>;
+  setFilterInput: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 };
 
 export const QueryBuilder = ({
   setSearchQuery,
   filters,
+  filterInput,
+  setFilterInput,
   setPageNum,
   orderList,
   setOrderList,
 }: QueryBuilderProps) => {
-  console.log("filters: " + filters);
+  // console.log("filters: " + filters);
+
   return (
     <div className="flex justify-center my-5 gap-10">
       <div className="p-1 drop-shadow-sm rounded-md bg-white">
@@ -37,7 +40,17 @@ export const QueryBuilder = ({
           items={filters.map((item: string) => (
             <div className="flex flex-row" key={item}>
               <div>{item}</div>
-              <input className="ml-1 border border-gray-300 rounded px-2 outline-none focus:ring-2 focus:ring-blue-300" />
+              <input
+                onChange={(e) => {
+                  setFilterInput((prev) => {
+                    const next = { ...prev, [item]: e.target.value };
+                    console.log("Updated filterInput:", next);
+                    return next;
+                  });
+                }}
+                value={filterInput[item] || ""}
+                className="ml-1 border border-gray-300 rounded px-2 outline-none focus:ring-2 focus:ring-blue-300"
+              />
             </div>
           ))}
         />
@@ -58,6 +71,7 @@ export const QueryBuilder = ({
                 } else {
                   setOrderList(orderList.filter((e) => e !== item));
                 }
+                console.log("orderList: " + orderList);
               }}
             >
               <div>{item}</div>

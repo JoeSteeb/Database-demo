@@ -8,8 +8,9 @@ export const People = () => {
   const [searchResults, setSearchResults] = useState<QueryObject | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
   const [filters, setFilters] = useState<string[]>([]);
-  const [filterInput, setFilterInput] = useState<string[]>([]);
+  const [filterInput, setFilterInput] = useState<Record<string,string>>({});
   const [orderList, setOrderList] = useState<string[]>([]);
   const [pageNum, setPageNum] = useState(0);
   // const [pageSize, setPageSize] = useState(20);
@@ -31,7 +32,7 @@ export const People = () => {
     );
 
     return () => {
-      controller.abort();
+      controller.abort()
     };
   }, [searchQuery, pageNum]);
 
@@ -49,6 +50,7 @@ export const People = () => {
         setSearchQuery={setSearchQuery}
         filters={filters}
         orderList={orderList}
+        filterInput={filterInput}
         setFilterInput={setFilterInput}
         setOrderList={setOrderList}
         setPageNum={setPageNum}
