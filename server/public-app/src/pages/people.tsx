@@ -10,7 +10,7 @@ export const People = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState<string[]>([]);
-  const [filterInput, setFilterInput] = useState<Record<string,string>>({});
+  const [filterInput, setFilterInput] = useState<Record<string, string>>({});
   const [orderList, setOrderList] = useState<string[]>([]);
   const [pageNum, setPageNum] = useState(0);
   // const [pageSize, setPageSize] = useState(20);
@@ -26,15 +26,16 @@ export const People = () => {
       pageNum,
       50,
       [{ columnName: "user_name", valueName: searchQuery }],
+      orderList,
       signal,
       setSearchResults,
       setError
     );
 
     return () => {
-      controller.abort()
+      controller.abort();
     };
-  }, [searchQuery, pageNum]);
+  }, [searchQuery, orderList, pageNum]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -71,7 +71,7 @@ export const QueryBuilder = ({
                 } else {
                   setOrderList(orderList.filter((e) => e !== item));
                 }
-                console.log("orderList: " + orderList);
+                console.log("orderList: " + [...orderList, item]);
               }}
             >
               <div>{item}</div>

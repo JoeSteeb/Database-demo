@@ -5,6 +5,7 @@ export const fetchData = async (
   pageNum: number,
   pageSize: number,
   likeFilters: LikeFilter[],
+  orderList: string[],
   signal: AbortSignal,
   setSearchResults: (res: QueryObject) => void,
   setError: (err: string) => void
@@ -16,6 +17,7 @@ export const fetchData = async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         likeFilters: likeFilters,
+        orderList: orderList,
         offset: pageNum * pageSize,
         limit: pageSize,
       }),
