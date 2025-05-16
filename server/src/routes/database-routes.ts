@@ -43,6 +43,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
   const validColumns = await getColumns("users");
   console.log("validColumns: " + validColumns);
   let orderString = "ORDER BY ";
+  let filterString = "WHERE ";
   const {
     likeFilters = [],
     orderList = ["user_id"],
@@ -55,11 +56,15 @@ router.post("/getUser", async (req: Request, res: Response) => {
     limit?: number;
   };
 
-  console.log("likeFilters: ");
   likeFilters.forEach((filter) => {
-    console.log("Column Name: " + filter.columnName);
-    console.log("Value Name: " + filter.valueName);
+    filterString += `${filter.columnName} LIKE '${
+      "%" + filter.valueName + "%"
+    }'`;
+    if (filter !== likeFilters[likeFilters.length - 1]) {
+      filterString += " AND ";
+    }
   });
+  console.log("Filter String: " + filterString);
 
   if (orderList.length < 1) {
     orderString = "ORDER BY user_id";
@@ -91,7 +96,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
       tip_count,
       yelping_since
       FROM users
-      WHERE user_name LIKE ${username}'%'
+      ${filterString}
       ${orderString}
       LIMIT ${limit}
       OFFSET ${offset};
