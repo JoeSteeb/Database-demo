@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { QueryView } from "../components/queryView";
 import { QueryBuilder } from "../components/queryBuilder";
-import type { QueryObject } from "../interfaces/databaseInterface";
+import type { QueryObject, LikeFilter } from "../interfaces/databaseInterface";
 import { fetchData, fetchFilters } from "../api/fetchData";
 
 export const People = () => {
@@ -10,7 +10,7 @@ export const People = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState<string[]>([]);
-  const [filterInput, setFilterInput] = useState<Record<string, string>>({});
+  const [filterInput, setFilterInput] = useState<LikeFilter[]>([]);
   const [orderList, setOrderList] = useState<string[]>([]);
   const [pageNum, setPageNum] = useState(0);
   // const [pageSize, setPageSize] = useState(20);
@@ -25,7 +25,7 @@ export const People = () => {
     fetchData(
       pageNum,
       50,
-      [{ columnName: "user_name", valueName: searchQuery }],
+      filterInput,
       orderList,
       signal,
       setSearchResults,
@@ -35,7 +35,7 @@ export const People = () => {
     return () => {
       controller.abort();
     };
-  }, [searchQuery, orderList, pageNum]);
+  }, [searchQuery, filterInput, orderList, pageNum]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

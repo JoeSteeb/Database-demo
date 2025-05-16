@@ -1,4 +1,5 @@
 import DropDownMenu from "./dropDown";
+import { LikeFilter } from "../interfaces/databaseInterface";
 
 type QueryBuilderProps = {
   setSearchQuery: (value: string) => void;
@@ -6,8 +7,8 @@ type QueryBuilderProps = {
   setOrderList: (value: string[]) => void;
   filters: string[];
   orderList: string[];
-  filterInput: Record<string, string>;
-  setFilterInput: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  filterInput: LikeFilter[];
+  setFilterInput: React.Dispatch<React.SetStateAction<LikeFilter[]>>;
 };
 
 export const QueryBuilder = ({
@@ -19,8 +20,6 @@ export const QueryBuilder = ({
   orderList,
   setOrderList,
 }: QueryBuilderProps) => {
-  // console.log("filters: " + filters);
-
   return (
     <div className="flex justify-center my-5 gap-10">
       <div className="p-1 drop-shadow-sm rounded-md bg-white">
@@ -43,12 +42,18 @@ export const QueryBuilder = ({
               <input
                 onChange={(e) => {
                   setFilterInput((prev) => {
-                    const next = { ...prev, [item]: e.target.value };
+                    let next = prev.filter((e) => e.columnName !== item);
+                    next.push({
+                      columnName: item,
+                      valueName: e.target.value,
+                    });
                     console.log("Updated filterInput:", next);
                     return next;
                   });
                 }}
-                value={filterInput[item] || ""}
+                value={
+                  filterInput.find((e) => e.columnName == item)?.valueName || ""
+                }
                 className="ml-1 border border-gray-300 rounded px-2 outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>

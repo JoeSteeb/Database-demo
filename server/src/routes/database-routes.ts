@@ -44,7 +44,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
   console.log("validColumns: " + validColumns);
   let orderString = "ORDER BY ";
   const {
-    likeFilters = "",
+    likeFilters = [],
     orderList = ["user_id"],
     offset = 0,
     limit = 20,
@@ -54,6 +54,12 @@ router.post("/getUser", async (req: Request, res: Response) => {
     offset?: number;
     limit?: number;
   };
+
+  console.log("likeFilters: ");
+  likeFilters.forEach((filter) => {
+    console.log("Column Name: " + filter.columnName);
+    console.log("Value Name: " + filter.valueName);
+  });
 
   if (orderList.length < 1) {
     orderString = "ORDER BY user_id";
