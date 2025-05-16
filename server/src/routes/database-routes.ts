@@ -43,7 +43,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
   const validColumns = await getColumns("users");
   console.log("validColumns: " + validColumns);
   let orderString = "ORDER BY ";
-  let filterString = "WHERE ";
+  let filterString = "";
   const {
     likeFilters = [],
     orderList = ["user_id"],
@@ -55,6 +55,10 @@ router.post("/getUser", async (req: Request, res: Response) => {
     offset?: number;
     limit?: number;
   };
+
+  if (likeFilters.length > 1) {
+    filterString = "WHERE ";
+  }
 
   likeFilters.forEach((filter) => {
     filterString += `${filter.columnName} LIKE '${
