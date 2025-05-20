@@ -1,4 +1,5 @@
 import type { QueryObject } from "../interfaces/databaseInterface";
+import React, { useState } from "react";
 
 type QueryViewProps = {
   searchResults: QueryObject | null;
@@ -11,12 +12,25 @@ export const QueryView = ({
   pageNum,
   setPageNum,
 }: QueryViewProps) => {
+  const [selected, setSelected] = useState<React.ReactNode | null>(null);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSelected(
+      <div className="absolute inset-0 z-10 bg-black opacity-50">
+        USER VIEW
+        <button onClick={() => setSelected(null)}>EXIT</button>
+      </div>
+    );
+  };
   return (
     <>
       <div className="flex flex-col items-center overflow-y-auto px-4">
         {searchResults &&
           searchResults.result.map((p) => (
-            <button className="w-full max-w-md my-1" key={p.user_id}>
+            <button
+              onClick={handleClick}
+              className="w-full max-w-md my-1"
+              key={p.user_id}
+            >
               User: {p.user_name} Created: {p.yelping_since}
             </button>
           ))}
@@ -38,6 +52,7 @@ export const QueryView = ({
         ))}
         <button type="button">Next</button>
       </div>
+      {selected}
     </>
   );
 };
