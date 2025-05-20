@@ -1,4 +1,5 @@
-import type { QueryObject } from "../interfaces/databaseInterface";
+import type { QueryObject, User } from "../interfaces/databaseInterface";
+import { ProfileView } from "./profileView";
 import React, { useState } from "react";
 
 type QueryViewProps = {
@@ -13,11 +14,19 @@ export const QueryView = ({
   setPageNum,
 }: QueryViewProps) => {
   const [selected, setSelected] = useState<React.ReactNode | null>(null);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setSelected(null);
+  });
+  const handleClick = (user: User) => {
     setSelected(
-      <div className="absolute inset-0 z-10 bg-black opacity-50">
-        USER VIEW
-        <button onClick={() => setSelected(null)}>EXIT</button>
+      <div className="absolute inset-20 inset-x-50 z-10 bg-white drop-shadow-sm rounded-lg">
+        <button
+          className="bg-[#ffe8e8] ml-1 mt-1"
+          onClick={() => setSelected(null)}
+        >
+          EXIT
+        </button>
+        <ProfileView user={user} />
       </div>
     );
   };
@@ -25,23 +34,30 @@ export const QueryView = ({
     <>
       <div className="flex flex-col items-center overflow-y-auto px-4">
         {searchResults &&
-          searchResults.result.map((p) => (
+          searchResults.result.map((u) => (
             <button
-              onClick={handleClick}
+              onClick={() => handleClick(u)}
               className="w-full max-w-md my-1"
-              key={p.user_id}
+              key={u.user_id}
             >
-              User: {p.user_name} Created: {p.yelping_since}
+              User: {u.user_name} Created: {u.yelping_since}
             </button>
           ))}
       </div>
 
       <div className="flex flex-row my-5">
-        <button type="button">Previous</button>
+        <button
+          type="button"
+          onClick={() => {
+            if (pageNum > 0) setPageNum(pageNum - 1);
+          }}
+        >
+          Previous
+        </button>
         {[...Array(5)].map((_, i) => (
           <button
             className={`${
-              pageNum === i ? "bg-[#fdf2f2]" : "bg-red"
+              pageNum === i ? "bg-[#e2e2e2]" : "bg-red"
             } border px-4 py-2 mx-1 rounded`}
             onClick={() => setPageNum(i)}
             key={i}

@@ -45,7 +45,7 @@ export const People = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-2/3 flex flex-col overflow-hidden drop-shadow-sm items-center bg-white my-5"
+      className="w-2/3 flex flex-col overflow-hidden drop-shadow-sm items-center bg-white my-5 rounded-lg"
     >
       <QueryBuilder
         setSearchQuery={setSearchQuery}
