@@ -7,9 +7,10 @@ export const fetchData = async (
   likeFilters: LikeFilter[],
   orderList: string[],
   signal: AbortSignal,
-  setSearchResults: (res: QueryObject) => void,
+  setSearchResults: (res: QueryObject | null) => void,
   setError: (err: string) => void
 ) => {
+  setSearchResults(null);
   try {
     console.log(`Offset ${pageNum * pageSize} pageSize ${pageSize}`);
     const res = await fetch("http://localhost:3001/api/getUser", {

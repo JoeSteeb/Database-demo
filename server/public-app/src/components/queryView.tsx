@@ -33,7 +33,7 @@ export const QueryView = ({
   return (
     <>
       <div className="flex flex-col items-center overflow-y-auto px-4">
-        {searchResults &&
+        {searchResults ? (
           searchResults.result.map((u) => (
             <button
               onClick={() => handleClick(u)}
@@ -42,7 +42,29 @@ export const QueryView = ({
             >
               User: {u.user_name} Created: {u.yelping_since}
             </button>
-          ))}
+          ))
+        ) : (
+          <div className="flex w-full justify-center items-center max-w-md h-dvh my-1">
+            <div className="flex space-x-2">
+              <span
+                className="w-2 h-2 bg-black rounded-full animate-bounce"
+                style={{ animationDelay: "0s" }}
+              ></span>
+              <span
+                className="w-2 h-2 bg-black rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></span>
+              <span
+                className="w-2 h-2 bg-black rounded-full animate-bounce"
+                style={{ animationDelay: "0s" }}
+              ></span>
+              <span
+                className="w-2 h-2 bg-black rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-row my-5">
