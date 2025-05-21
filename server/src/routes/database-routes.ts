@@ -56,7 +56,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
     limit?: number;
   };
 
-  if (likeFilters.length > 1) {
+  if (likeFilters.length > 0) {
     filterString = "WHERE ";
   }
 
