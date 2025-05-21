@@ -88,7 +88,15 @@ export const QueryView = ({
             {i + 1}
           </button>
         ))}
-        <button type="button">Next</button>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (pageNum < 4) setPageNum(pageNum + 1);
+          }}
+        >
+          Next
+        </button>
       </div>
       {selected}
     </>

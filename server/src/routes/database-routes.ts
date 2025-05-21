@@ -94,7 +94,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
 
   try {
     const result = await sql.unsafe(`
-      SELECT DISTINCT 
+      SELECT 
       user_id,
       user_name,
       tip_count,
@@ -106,8 +106,10 @@ router.post("/getUser", async (req: Request, res: Response) => {
       OFFSET ${offset};
     `);
 
+    console.log("result queried");
+
     const [{ count }] = await sql`
-      SELECT COUNT(DISTINCT user_id) AS count
+      SELECT COUNT(user_id) AS count
       FROM users
       WHERE user_name LIKE ${username} || '%'
     `;
