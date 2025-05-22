@@ -1,15 +1,15 @@
-export type User = {
+export interface User {
   user_id: string;
   user_name: string;
   yelping_since: string;
-};
+}
 
-export type QueryObject = {
+export interface QueryObject {
   count: number;
   result: User[];
-};
+}
 
-export type LikeFilter = {
+export interface LikeFilter {
   columnName: string;
   valueName: string;
-};
+}
