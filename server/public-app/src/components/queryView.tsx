@@ -1,6 +1,7 @@
 import type { QueryObject, User } from "../interfaces/databaseInterface";
 import { ProfileView } from "./profileView";
 import React, { useState } from "react";
+import { Loading } from "./animations/loading";
 
 type QueryViewProps = {
   searchResults: QueryObject | null;
@@ -45,24 +46,7 @@ export const QueryView = ({
           ))
         ) : (
           <div className="flex w-full justify-center items-center max-w-md h-dvh my-1">
-            <div className="flex space-x-2">
-              <span
-                className="w-2 h-2 bg-black rounded-full animate-bounce"
-                style={{ animationDelay: "0s" }}
-              ></span>
-              <span
-                className="w-2 h-2 bg-black rounded-full animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              ></span>
-              <span
-                className="w-2 h-2 bg-black rounded-full animate-bounce"
-                style={{ animationDelay: "0s" }}
-              ></span>
-              <span
-                className="w-2 h-2 bg-black rounded-full animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              ></span>
-            </div>
+            <Loading />
           </div>
         )}
       </div>
