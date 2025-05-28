@@ -39,22 +39,28 @@ router.post("/columnsInTable", (req: Request, res: Response, next) => {
   })();
 });
 
-router.post("/getUser", async (req: Request, res: Response) => {
-  const validColumns = await getColumns("users");
-  console.log("validColumns: " + validColumns);
-  let orderString = "ORDER BY ";
+router.post("/getTable", async (req: Request, res: Response) => {
+  console.log("getTable called");
+  console.log("Request body: ", req.body);
+  let orderString = "";
   let filterString = "";
   const {
     likeFilters = [],
-    orderList = ["user_id"],
+    orderList = [],
     offset = 0,
     limit = 20,
+    tableName,
   } = req.body as {
     likeFilters?: db.LikeFilter[];
     orderList?: [];
     offset?: number;
     limit?: number;
+    tableName: string;
   };
+
+  const validColumns = await getColumns(tableName);
+  const fromString = `FROM ${tableName}`;
+  console.log("validColumns: " + validColumns);
 
   if (likeFilters.length > 0) {
     filterString = "WHERE ";
@@ -71,7 +77,9 @@ router.post("/getUser", async (req: Request, res: Response) => {
   console.log("Filter String: " + filterString);
 
   if (orderList.length < 1) {
-    orderString = "ORDER BY user_id";
+    orderString = "";
+  } else {
+    orderString += "ORDER BY ";
   }
 
   for (let i = 0; i < orderList.length; i++) {
@@ -82,7 +90,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
         orderString += ", ";
       }
     } else {
-      orderString = "ORDER BY user_name";
+      orderString = "";
     }
   }
 
@@ -99,7 +107,7 @@ router.post("/getUser", async (req: Request, res: Response) => {
       user_name,
       tip_count,
       yelping_since
-      FROM users
+      ${fromString}
       ${filterString}
       ${orderString}
       LIMIT ${limit}
@@ -108,11 +116,11 @@ router.post("/getUser", async (req: Request, res: Response) => {
 
     console.log("result queried");
 
-    const [{ count }] = await sql`
+    const [{ count }] = await sql.unsafe(`
       SELECT COUNT(user_id) AS count
-      FROM users
-      WHERE user_name LIKE ${username} || '%'
-    `;
+      ${fromString}
+      ${filterString}
+    `);
 
     res.json({ result, count });
     console.log("user queried");

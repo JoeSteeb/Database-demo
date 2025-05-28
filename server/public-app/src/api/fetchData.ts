@@ -8,12 +8,13 @@ export const fetchData = async (
   orderList: string[],
   signal: AbortSignal,
   setSearchResults: (res: QueryObject | null) => void,
-  setError: (err: string) => void
+  setError: (err: string) => void,
+  tableName: string
 ) => {
   setSearchResults(null);
   try {
     console.log(`Offset ${pageNum * pageSize} pageSize ${pageSize}`);
-    const res = await fetch("http://localhost:3001/api/getUser", {
+    const res = await fetch("http://localhost:3001/api/getTable", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -21,6 +22,7 @@ export const fetchData = async (
         orderList: orderList,
         offset: pageNum * pageSize,
         limit: pageSize,
+        tableName: tableName,
       }),
       signal,
     });

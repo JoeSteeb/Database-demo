@@ -1,5 +1,5 @@
-import type { QueryObject, User } from "../interfaces/databaseInterface";
-import { ProfileView } from "./profileView";
+import type { QueryObject, Displayable } from "../interfaces/databaseInterface";
+// import { ProfileView } from "./profileView";
 import React, { useState } from "react";
 import { Loading } from "./animations/loading";
 
@@ -15,10 +15,20 @@ export const QueryView = ({
   setPageNum,
 }: QueryViewProps) => {
   const [selected, setSelected] = useState<React.ReactNode | null>(null);
+  const View = searchResults?.view;
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") setSelected(null);
   });
-  const handleClick = (user: User) => {
+
+  if (!searchResults) {
+    return (
+      <div className="flex w-full justify-center items-center max-w-md h-dvh my-1">
+        <Loading />
+      </div>
+    );
+  }
+
+  const handleClick = (user: Displayable) => {
     setSelected(
       <div className="absolute inset-20 inset-x-50 z-10 bg-white drop-shadow-sm rounded-lg">
         <button
@@ -27,28 +37,24 @@ export const QueryView = ({
         >
           EXIT
         </button>
-        <ProfileView user={user} />
+        {View && <View data={user} />}
       </div>
     );
   };
   return (
     <>
       <div className="flex flex-col items-center overflow-y-auto px-4">
-        {searchResults ? (
-          searchResults.result.map((u) => (
-            <button
-              onClick={() => handleClick(u)}
-              className="w-full max-w-md my-1"
-              key={u.user_id}
-            >
-              User: {u.user_name} Created: {u.yelping_since}
-            </button>
-          ))
-        ) : (
-          <div className="flex w-full justify-center items-center max-w-md h-dvh my-1">
-            <Loading />
-          </div>
-        )}
+        {searchResults.result.map((u) => (
+          <button
+            onClick={() => handleClick(u)}
+            className="w-full max-w-md my-1"
+            key={u.id}
+          >
+            {searchResults.display_attributes?.reduce((acc, attr) => {
+              return acc + (u as any)[attr] + " ";
+            })}
+          </button>
+        ))}
       </div>
 
       <div className="flex flex-row my-5">

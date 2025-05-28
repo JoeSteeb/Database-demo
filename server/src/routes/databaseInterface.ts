@@ -1,15 +1,29 @@
-export type User = {
+export interface Displayable {
+  id: string;
+  display_attributes: string[];
+}
+
+export interface User extends Displayable {
   user_id: string;
   user_name: string;
   yelping_since: string;
-};
+}
 
-export type QueryObject = {
+export interface Business extends Displayable {
+  business_id: string;
+  business_name: string;
+  business_address: string;
+  city: string;
+  business_state: string;
+  zip: string;
+}
+
+export interface QueryObject {
   count: number;
-  result: User[];
-};
+  result: Displayable[];
+}
 
-export type LikeFilter = {
+export interface LikeFilter {
   columnName: string;
   valueName: string;
-};
+}
