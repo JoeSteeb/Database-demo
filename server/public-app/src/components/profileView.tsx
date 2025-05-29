@@ -7,7 +7,11 @@ export const ProfileView = ({ data }: ProfileViewProps) => {
   const [svgContent, setSvgContent] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/figures/user", { method: "POST" })
+    fetch("http://localhost:3001/api/figures/user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user: data }),
+    })
       .then((res) => res.text()) // SVG is text, not JSON
       .then((data) => setSvgContent(data))
       .catch((err) => console.error("Failed to fetch SVG:", err));
