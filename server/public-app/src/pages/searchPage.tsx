@@ -7,12 +7,14 @@ import { fetchData, fetchFilters } from "../api/fetchData";
 type SearchPageProps = {
   table: string;
   displayAttributes: string[];
+  id: string;
   view: React.ComponentType<any>;
 };
 
 export const SearchPage = ({
   table,
   displayAttributes,
+  id,
   view,
 }: SearchPageProps) => {
   const [searchResults, setSearchResults] = useState<QueryObject | null>(null);
@@ -30,7 +32,11 @@ export const SearchPage = ({
   if (searchResults) {
     queryObject = {
       ...searchResults,
-      display_attributes: displayAttributes || [],
+      result: searchResults.result.map((item) => ({
+        ...item,
+        id: (item as any)[id],
+      })),
+      display_attributes: displayAttributes,
       view: view,
     };
   }
@@ -77,7 +83,7 @@ export const SearchPage = ({
         setPageNum={setPageNum}
       />
       <QueryView
-        searchResults={searchResults}
+        searchResults={queryObject}
         pageNum={pageNum}
         setPageNum={setPageNum}
       />

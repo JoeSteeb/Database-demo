@@ -103,10 +103,7 @@ router.post("/getTable", async (req: Request, res: Response) => {
   try {
     const result = await sql.unsafe(`
       SELECT 
-      user_id,
-      user_name,
-      tip_count,
-      yelping_since
+      *
       ${fromString}
       ${filterString}
       ${orderString}
@@ -117,7 +114,7 @@ router.post("/getTable", async (req: Request, res: Response) => {
     console.log("result queried");
 
     const [{ count }] = await sql.unsafe(`
-      SELECT COUNT(user_id) AS count
+      SELECT COUNT(*) AS count
       ${fromString}
       ${filterString}
     `);

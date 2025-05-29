@@ -52,7 +52,7 @@ export const QueryView = ({
           >
             {searchResults.display_attributes?.reduce((acc, attr) => {
               return acc + (u as any)[attr] + " ";
-            })}
+            }, "")}
           </button>
         ))}
       </div>
