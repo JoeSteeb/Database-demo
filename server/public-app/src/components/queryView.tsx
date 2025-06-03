@@ -30,7 +30,7 @@ export const QueryView = ({
 
   const handleClick = (user: Displayable) => {
     setSelected(
-      <div className="absolute inset-20 inset-x-50 z-10 bg-white drop-shadow-sm rounded-lg">
+      <div className="absolute inset-20 inset-x-30 z-10 h-4/5 bg-white drop-shadow-sm rounded-lg">
         <button
           className="bg-[#ffe8e8] ml-1 mt-1"
           onClick={() => setSelected(null)}

@@ -17,7 +17,7 @@ export const BusinessView = ({ data }: BusinessViewProps) => {
     );
   else
     return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center h-3/4">
         <h1>{data.business_name} </h1>
         <h3>
           {data.city}, {data.business_state}

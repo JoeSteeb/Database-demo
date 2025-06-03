@@ -44,5 +44,5 @@ export const MapView = ({ coordinates, zoom }: MapViewProps) => {
       mapInstance.setTarget("");
     };
   }, []);
-  return <div ref={mapRef} className="w-2/3 h-50"></div>;
+  return <div ref={mapRef} className="w-2/3 h-full"></div>;
 };
