@@ -6,14 +6,14 @@ import { Tips } from "./pages/tips";
 
 function App() {
   const pages = [
-    { title: "People", content: <People /> },
     { title: "Businesses", content: <Businesses /> },
+    { title: "People", content: <People /> },
     { title: "Tips", content: <Tips /> },
   ];
 
   const [currentPage, setCurrentPage] = useState({
-    title: "People",
-    content: <People />,
+    title: "Businesses",
+    content: <Businesses />,
   });
 
   return (

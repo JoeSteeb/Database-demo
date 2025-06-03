@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { StarsIcon } from "./icons/stars";
+import { MapView } from "./map";
 import type { Business } from "../interfaces/databaseInterface";
 // import { Loading } from "./animations/loading";
 
@@ -22,6 +23,7 @@ export const BusinessView = ({ data }: BusinessViewProps) => {
           {data.city}, {data.business_state}
         </h3>
         <StarsIcon rating={data.stars} />
+        <MapView coordinates={[data.longitude, data.latitude]} />
       </div>
     );
 };

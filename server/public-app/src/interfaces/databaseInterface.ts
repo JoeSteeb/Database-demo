@@ -16,6 +16,8 @@ export interface Business extends Displayable {
   business_address: string;
   city: string;
   business_state: string;
+  longitude: number;
+  latitude: number;
   stars: number;
   zip: string;
 }

@@ -50,9 +50,10 @@ export const QueryView = ({
             className="w-full max-w-md my-1"
             key={u.id}
           >
-            {searchResults.display_attributes?.reduce((acc, attr) => {
-              return acc + (u as any)[attr] + " ";
-            }, "")}
+            {searchResults.display_attributes
+              ?.map((attr) => (u as any)[attr])
+              .filter((val) => val != null)
+              .join(" | ")}
           </button>
         ))}
       </div>
