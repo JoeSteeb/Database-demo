@@ -16,7 +16,7 @@ def plot_svg():
     print("Received user:", user)
 
     metric_names = ["funny", "useful", "cool"]
-    metric_values = list(map(lambda x: str(user[x]), metric_names))
+    metric_values = list(map(lambda x: user[x], metric_names))
     # metric_values = [1, 2, 3]
 
     fig, ax = plt.subplots()
