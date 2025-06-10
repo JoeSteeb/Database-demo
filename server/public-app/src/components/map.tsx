@@ -2,9 +2,15 @@ import View from "ol/View";
 import Map from "ol/Map";
 import XYZ from "ol/source/XYZ";
 import TileLayer from "ol/layer/Tile";
-import { useEffect, useRef, useState } from "react";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import Style from "ol/style/Style";
+import Icon from "ol/style/Icon";
+
+import { useEffect, useRef } from "react";
 import { fromLonLat } from "ol/proj";
-import { OSM } from "ol/source";
 
 type MapViewProps = {
   coordinates?: [number, number];
@@ -22,11 +28,13 @@ export const MapView = ({ coordinates, zoom }: MapViewProps) => {
   console.log("MapView coordinates:", coordinates);
 
   const mapRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const target = mapRef.current;
     if (!target) return;
+
     const mapInstance = new Map({
-      target: mapRef.current!,
+      target: target,
       layers: [
         new TileLayer({
           source: new XYZ({
@@ -36,13 +44,38 @@ export const MapView = ({ coordinates, zoom }: MapViewProps) => {
       ],
       view: new View({
         center: fromLonLat(coordinates),
-        zoom: 10,
+        zoom: zoom,
       }),
     });
+
+    // Create the pin feature
+    const marker = new Feature({
+      geometry: new Point(fromLonLat(coordinates)),
+    });
+
+    // Optional: use an icon instead of default style
+    marker.setStyle(
+      new Style({
+        image: new Icon({
+          src: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // or any other icon
+          scale: 0.05,
+          anchor: [0.5, 1],
+        }),
+      })
+    );
+
+    const vectorLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [marker],
+      }),
+    });
+
+    mapInstance.addLayer(vectorLayer);
+
     return () => {
-      mapRef.current = null;
       mapInstance.setTarget("");
     };
-  }, []);
+  }, [coordinates, zoom]);
+
   return <div ref={mapRef} className="w-2/3 h-full"></div>;
 };

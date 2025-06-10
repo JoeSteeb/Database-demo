@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StarsIcon } from "./icons/stars";
 import { MapView } from "./map";
 import type { Business } from "../interfaces/databaseInterface";
